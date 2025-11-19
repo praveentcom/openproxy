@@ -46,11 +46,11 @@ export async function GET(request: NextRequest) {
           client_ip,
           stream
         FROM ${TABLE_NAME}
-        WHERE timestamp >= NOW() - INTERVAL '${hours} hours'
+        WHERE timestamp >= NOW() - INTERVAL '$1 hours'
         ORDER BY timestamp DESC
-        LIMIT ${limit}
+        LIMIT $2
       `;
-      const recentResult = await client.query(recentQuery);
+      const recentResult = await client.query(recentQuery, [hours, limit]);
       const recentRequests = recentResult.rows;
 
       // Get model breakdown
