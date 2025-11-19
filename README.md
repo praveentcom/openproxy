@@ -148,6 +148,27 @@ Monitor your API usage through the PostgreSQL logs:
 - Identify usage patterns and optimize costs
 - Maintain compliance with audit requirements
 
+### Metrics Dashboard
+
+OpenProxy includes a lightweight Next.js dashboard for real-time metrics visualization:
+
+```bash
+cd dashboard
+npm install
+cp .env.example .env
+# Configure DATABASE_URL in .env
+npm run dev
+```
+
+The dashboard (available at `http://localhost:3008`) provides:
+- **Real-time Overview**: Total requests, tokens, costs, and response times
+- **Model Breakdown**: Usage statistics grouped by LLM model
+- **Hourly Trends**: Visual charts showing request patterns over time
+- **Recent Requests**: Detailed table of recent API calls
+- **Auto-refresh**: Automatic updates every 30 seconds
+
+See [dashboard/README.md](./dashboard/README.md) for detailed setup instructions.
+
 ## 🤝 Contributing
 
 Feel free to submit issues and enhancement requests!
