@@ -67,7 +67,12 @@ async function logToPG(data: Record<string, any>) {
   const vals = keys.map((_, i) => `$${i + 1}`).join(",");
   const values = Object.values(data);
 
-  await pool.query(`INSERT INTO ${process.env.DATABASE_TABLE || "llm_proxy"} (${cols}) VALUES (${vals})`, values);
+  // Validate table name against whitelist to prevent SQL injection
+  const TABLE_NAME = process.env.DATABASE_TABLE || "llm_proxy";
+  const ALLOWED_TABLES = ["llm_proxy", "llm_proxy_dev", "llm_proxy_test"];
+  const validatedTableName = ALLOWED_TABLES.includes(TABLE_NAME) ? TABLE_NAME : "llm_proxy";
+
+  await pool.query(`INSERT INTO ${validatedTableName} (${cols}) VALUES (${vals})`, values);
 }
 
 // --- Main proxy server ---
@@ -198,7 +203,7 @@ const server = http.createServer(async (req, res) => {
       completion_tokens: usage.completion_tokens || null,
       prompt_tokens: usage.prompt_tokens || null,
       total_tokens: usage.total_tokens || null,
-      cached_tokens: usage.cached_tokens || null,
+      cached_tokens: usage.prompt_tokens_details?.cached_tokens || null,
       total_cost: totalCost,
       response_time: Date.now() - start,
       request_body: requestJson,
