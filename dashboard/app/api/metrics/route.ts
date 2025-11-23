@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
           COUNT(DISTINCT model) as unique_models,
           COUNT(DISTINCT client_ip) as unique_clients
         FROM ${validatedTableName}
-        WHERE timestamp >= NOW() - INTERVAL '$1 hours'
+        WHERE timestamp >= NOW() - INTERVAL '1 hour' * $1
       `;
       const summaryResult = await client.query(summaryQuery, [hours]);
       const summary = summaryResult.rows[0];
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
           client_ip,
           stream
         FROM ${validatedTableName}
-        WHERE timestamp >= NOW() - INTERVAL '$1 hours'
+        WHERE timestamp >= NOW() - INTERVAL '1 hour' * $1
         ORDER BY timestamp DESC
         LIMIT $2
       `;
@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
           SUM(total_cost) as total_cost,
           AVG(response_time) as avg_response_time
         FROM ${validatedTableName}
-        WHERE timestamp >= NOW() - INTERVAL '$1 hours'
+        WHERE timestamp >= NOW() - INTERVAL '1 hour' * $1
         GROUP BY model
         ORDER BY request_count DESC
       `;
@@ -88,7 +88,7 @@ export async function GET(request: NextRequest) {
           SUM(total_cost) as cost,
           AVG(response_time) as avg_response_time
         FROM ${validatedTableName}
-        WHERE timestamp >= NOW() - INTERVAL '$1 hours'
+        WHERE timestamp >= NOW() - INTERVAL '1 hour' * $1
         GROUP BY hour
         ORDER BY hour ASC
       `;
