@@ -33,7 +33,7 @@ function generateRequestId(): string {
 function normalizeIp(ip: string | null | undefined): string | null {
   if (!ip) return null;
   // Handle IPv6-mapped IPv4 addresses (::ffff:x.x.x.x)
-  if (ip.startsWith('::ffff:')) {
+  if (ip.startsWith('::ffff:') && ip.length > 7) {
     return ip.substring(7);
   }
   return ip;
@@ -92,7 +92,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     const auth = req.headers["authorization"];
-    if (!auth?.toString().startsWith("Bearer ")) {
+    if (!auth?.startsWith("Bearer ")) {
       res.statusCode = 401;
       res.end(JSON.stringify({ error: "Missing or invalid Authorization header" }));
       return;
@@ -109,7 +109,7 @@ const server = http.createServer(async (req, res) => {
         method,
         headers: {
           "Content-Type": (req.headers["content-type"] as string) || "application/json",
-          Authorization: auth.toString(),
+          Authorization: auth,
         },
         // @ts-ignore
         duplex: "half",
@@ -156,7 +156,7 @@ const server = http.createServer(async (req, res) => {
             for (const line of lines) {
               if (!line.startsWith("data:")) continue;
               const jsonStr = line.slice(5).trim();
-              if (jsonStr === "[DONE]") continue;
+              if (jsonStr === "[DONE]" || jsonStr === "") continue;
               try {
                 const obj = JSON.parse(jsonStr);
                 if (obj.usage) usageFromStream = obj.usage;
