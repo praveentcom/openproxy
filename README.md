@@ -2,7 +2,7 @@
 
 OpenProxy is a lightweight, production-ready proxy server that seamlessly forwards API requests to OpenAI and Anthropic compatible endpoints with comprehensive logging, cost tracking, and PostgreSQL integration.
 
-<img width="2400" height="1260" alt="openproxy_cover-image" src="https://github.com/user-attachments/assets/02a9fe2f-6c58-475b-a380-5da63b71b58e" />
+<img width="2400" height="1260" alt="openproxy_cover-image" src="https://github.com/user-attachments/assets/c98db1b5-2685-4309-a809-0f98a9a9d432" />
 
 ## How to configure?
 
