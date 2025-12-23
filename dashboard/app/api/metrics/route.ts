@@ -5,11 +5,7 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-const TABLE_NAME = process.env.DATABASE_TABLE || 'llm_proxy';
-
-// Validate table name against whitelist to prevent SQL injection
-const ALLOWED_TABLES = ['llm_proxy', 'llm_proxy_dev', 'llm_proxy_test'];
-const validatedTableName = ALLOWED_TABLES.includes(TABLE_NAME) ? TABLE_NAME : 'llm_proxy';
+const TABLE_NAME = 'llm_proxy';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -35,7 +31,7 @@ export async function GET(request: NextRequest) {
           AVG(response_time) as avg_response_time,
           COUNT(DISTINCT model) as unique_models,
           COUNT(DISTINCT client_ip) as unique_clients
-        FROM ${validatedTableName}
+        FROM ${TABLE_NAME}
         WHERE timestamp >= NOW() - INTERVAL '1 hour' * $1
       `;
       const summaryResult = await client.query(summaryQuery, [hours]);
@@ -55,7 +51,7 @@ export async function GET(request: NextRequest) {
           response_status,
           client_ip,
           stream
-        FROM ${validatedTableName}
+        FROM ${TABLE_NAME}
         WHERE timestamp >= NOW() - INTERVAL '1 hour' * $1
         ORDER BY timestamp DESC
         LIMIT $2
@@ -71,7 +67,7 @@ export async function GET(request: NextRequest) {
           SUM(total_tokens) as total_tokens,
           SUM(total_cost) as total_cost,
           AVG(response_time) as avg_response_time
-        FROM ${validatedTableName}
+        FROM ${TABLE_NAME}
         WHERE timestamp >= NOW() - INTERVAL '1 hour' * $1
         GROUP BY model
         ORDER BY request_count DESC
@@ -87,7 +83,7 @@ export async function GET(request: NextRequest) {
           SUM(total_tokens) as tokens,
           SUM(total_cost) as cost,
           AVG(response_time) as avg_response_time
-        FROM ${validatedTableName}
+        FROM ${TABLE_NAME}
         WHERE timestamp >= NOW() - INTERVAL '1 hour' * $1
         GROUP BY hour
         ORDER BY hour ASC
