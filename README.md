@@ -1,6 +1,6 @@
 # OpenProxy: Proxy for OpenAI/Anthropic-compatible APIs
 
-OpenProxy is a lightweight LLM proxy server that seamlessly forwards API requests to OpenAI and Anthropic compatible endpoints with comprehensive logging, cost tracking, and PostgreSQL integration.
+OpenProxy is a lightweight LLM proxy server that seamlessly forwards API requests to OpenAI and Anthropic compatible endpoints with logging, cost tracking, and PostgreSQL integration.
 
 <img width="2400" height="1260" alt="openproxy_cover-image" src="https://github.com/user-attachments/assets/c98db1b5-2685-4309-a809-0f98a9a9d432" />
 
