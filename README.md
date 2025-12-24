@@ -6,15 +6,13 @@ OpenProxy is a lightweight LLM proxy server that seamlessly forwards API request
 
 ## How to configure?
 
-### Setting up
-
-I'd recommend forking this repository or cloning it directly. Once done, you should be able to get OpenProxy running with minimal configuration.
+You should be able to get OpenProxy running with minimal configuration. Follow the steps to get started.
 
 ```bash
 pnpm install
 ```
 
-Set your environment variables:
+#### Set your environment variables
 
 ```bash
 export PORT=3007
@@ -23,7 +21,7 @@ export ANTHROPIC_UPSTREAM_URL="https://api.example.com/api/anthropic/v1"
 export DATABASE_URL="postgresql://user:password@localhost:5432/database_name"
 ```
 
-Start the server:
+#### Start the server
 
 ```bash
 # Development mode with auto-reload
@@ -33,27 +31,7 @@ pnpm dev
 pnpm build && pnpm start
 ```
 
-### Configuration
-
-| Environment Variable | Description | Default |
-|----------------------|-------------|---------|
-| `PORT` | Server port | `3007` |
-| `OPENAI_UPSTREAM_URL` | OpenAI-compatible endpoint URL | - |
-| `ANTHROPIC_UPSTREAM_URL` | Anthropic-compatible endpoint URL | - |
-| `DATABASE_URL` | PostgreSQL connection string | **Required** |
-
-OpenProxy uses path prefixes for clean provider detection:
-
-| Proxy Path | Routes To | Auth Header |
-|------------|-----------|-------------|
-| `/openai/*` | `OPENAI_UPSTREAM_URL/*` | `Authorization: Bearer <key>` |
-| `/anthropic/*` | `ANTHROPIC_UPSTREAM_URL/*` | `x-api-key: <key>` or `Authorization: Bearer <key>` |
-
-### SSRF Warning [Important]
-
-Some clients (e.g. Cursor) may block access to `localhost` or `127.0.0.1` URLs. If you encounter this issue, you can use an external proxy service like `ngrok` to open up your `localhost:3007` port to a public domain. This will enable you to use OpenProxy with such services.
-
-### PostgreSQL Logging
+## Log to PostgreSQL
 
 Every request is logged with comprehensive details to the PostgreSQL database. The table schema is as follows:
 
@@ -89,9 +67,11 @@ CREATE TABLE IF NOT EXISTS llm_proxy (
 
 OpenProxy automatically calculates costs based on model and token usage using the Helicone API. You can customize the costs for your own models in `cost.ts`.
 
-## How to use?
+## SSRF Warning [Important]
 
-### Using with Claude Code
+Some clients (e.g. Cursor) may block access to `localhost` or `127.0.0.1` URLs. If you encounter this issue, you can use an external proxy service like `ngrok` to open up your `localhost:3007` port to a public domain. This will enable you to use OpenProxy with such services.
+
+## Using with Claude Code
 
 For example, to use Z.AI or other Anthropic-compatible providers with Claude Code:
 
@@ -103,7 +83,7 @@ pnpm dev
 
 Configure Claude Code to use the following URL: `http://localhost:3007/anthropic`
 
-### Using with Cursor
+## Using with Cursor
 
 For example, to use Z.AI or other Anthropic-compatible providers with Cursor:
 
@@ -115,10 +95,12 @@ pnpm dev
 
 > Cursor blocks access to `localhost` or `127.0.0.1` URLs by default. You can use an external proxy service like `ngrok` to open up your `localhost:3007` port to a public domain. Refer to the [SSRF Warning](#ssrf-warning-important) for more details.
 
-Configure Cursor to use the following URL for OpenAI API requests: `http://public-domain.ngrok-free.app/openai`
-Configure Cursor to use the following URL for Anthropic API requests: `http://public-domain.ngrok-free.app/anthropic`
+Configure Cursor to use the following URLs:
 
-### Using with other OpenAI-compatible clients
+1. OpenAI API requests: `http://public-domain.ngrok-free.app/openai`
+2. Anthropic API requests: `http://public-domain.ngrok-free.app/anthropic`
+
+## Using with other OpenAI-compatible clients
 
 For example, to use Z.AI or other OpenAI-compatible providers with OpenAI-compatible clients:
 
