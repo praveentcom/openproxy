@@ -49,6 +49,9 @@ OpenProxy uses path prefixes for clean provider detection:
 | `/openai/*` | `OPENAI_UPSTREAM_URL/*` | `Authorization: Bearer <key>` |
 | `/anthropic/*` | `ANTHROPIC_UPSTREAM_URL/*` | `x-api-key: <key>` or `Authorization: Bearer <key>` |
 
+### SSRF Warning [Important]
+
+Some clients (e.g. Cursor) may block access to `localhost` or `127.0.0.1` URLs. If you encounter this issue, you can use an external proxy service like `ngrok` to open up your `localhost:3007` port to a public domain. This will enable you to use OpenProxy with such services.
 
 ### PostgreSQL Logging
 
@@ -96,12 +99,26 @@ For example, to use Z.AI or other Anthropic-compatible providers with Claude Cod
 export ANTHROPIC_UPSTREAM_URL="https://api.z.ai/api/anthropic"
 export DATABASE_URL="postgresql://user:password@localhost:5432/database_name"
 pnpm dev
-
-# Configure Claude Code to use:
-# API Base URL: http://localhost:3007/anthropic
 ```
 
-### Using with OpenAI-compatible clients
+Configure Claude Code to use the following URL: `http://localhost:3007/anthropic`
+
+### Using with Cursor
+
+For example, to use Z.AI or other Anthropic-compatible providers with Cursor:
+
+```bash
+export ANTHROPIC_UPSTREAM_URL="https://api.z.ai/api/anthropic"
+export DATABASE_URL="postgresql://user:password@localhost:5432/database_name"
+pnpm dev
+```
+
+> Cursor blocks access to `localhost` or `127.0.0.1` URLs by default. You can use an external proxy service like `ngrok` to open up your `localhost:3007` port to a public domain. Refer to the [SSRF Warning](#ssrf-warning-important) for more details.
+
+Configure Cursor to use the following URL for OpenAI API requests: `http://public-domain.ngrok-free.app/openai`
+Configure Cursor to use the following URL for Anthropic API requests: `http://public-domain.ngrok-free.app/anthropic`
+
+### Using with other OpenAI-compatible clients
 
 For example, to use Z.AI or other OpenAI-compatible providers with OpenAI-compatible clients:
 

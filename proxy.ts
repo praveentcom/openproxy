@@ -281,6 +281,7 @@ async function persistDatabaseRecord(data: Record<string, any>) {
  */
 const server = http.createServer(async (req: IncomingMessage, res: ServerResponse) => {
   const startTime = Date.now();
+  console.log(`[\x1b[30m${new Date().toISOString()}\x1b[0m] \x1b[93m${req.method} \x1b[0m\x1b[94m${req.url}\x1b[0m`);
   try {
     const url = new URL(req.url || "/", `http://${req.headers.host}`);
     const path = url.pathname;
@@ -483,10 +484,10 @@ async function startServer() {
   await loadHeliconeCosts();
 
   server.listen(PORT, () => {
-    console.log(`\n\x1b[32mOpenProxy upstream connections activated ⟣⟢\x1b[0m\n`);
+    console.log(`\n\x1b[32mOpenProxy ready... ⟣⟢\x1b[0m\n`);
 
-    if (OPENAI_UPSTREAM_URL) console.log(`\x1b[34m  📡 http://localhost:${PORT}/openai/* → ${OPENAI_UPSTREAM_URL}\x1b[0m`);
-    if (ANTHROPIC_UPSTREAM_URL) console.log(`\x1b[34m  📡 http://localhost:${PORT}/anthropic/* → ${ANTHROPIC_UPSTREAM_URL}\x1b[0m\n`);
+    if (OPENAI_UPSTREAM_URL) console.log(`\x1b[94m  📡 http://localhost:${PORT}/openai/* → ${OPENAI_UPSTREAM_URL}\x1b[0m`);
+    if (ANTHROPIC_UPSTREAM_URL) console.log(`\x1b[94m  📡 http://localhost:${PORT}/anthropic/* → ${ANTHROPIC_UPSTREAM_URL}\x1b[0m\n`);
   });
 }
 

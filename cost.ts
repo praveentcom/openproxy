@@ -133,7 +133,7 @@ export async function loadHeliconeCosts(): Promise<void> {
     }
 
     heliconeCostsLoaded = true;
-    console.log(`\x1b[36m  🌎 Loaded ${data.metadata.total_models} model costs from Helicone\x1b[0m`);
+    console.log(`\x1b[96m  🌎 Loaded ${data.metadata.total_models} model costs from Helicone API\x1b[0m`);
   } catch (error) {
     console.warn(`\x1b[33m  ⚠️  Failed to load Helicone costs: ${error instanceof Error ? error.message : error}\x1b[0m`);
   }
