@@ -97,7 +97,7 @@ export default function Dashboard() {
         <div style={styles.controls}>
           <select
             value={timeRange}
-            onChange={(e) => setTimeRange(parseInt(e.target.value))}
+            onChange={(e) => setTimeRange(Number.parseInt(e.target.value))}
             style={styles.select}
           >
             <option value={1}>Last Hour</option>

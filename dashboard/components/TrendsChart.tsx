@@ -39,8 +39,8 @@ export default function TrendsChart({ trends }: TrendsChartProps) {
       day: 'numeric',
       hour: '2-digit',
     }),
-    requests: parseInt(trend.requests),
-    tokens: parseInt(trend.tokens),
+    requests: Number.parseInt(trend.requests),
+    tokens: Number.parseInt(trend.tokens),
     cost: parseFloat(trend.cost),
     responseTime: Math.round(parseFloat(trend.avg_response_time)),
   }));
