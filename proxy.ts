@@ -37,8 +37,8 @@
 
 import "dotenv/config";
 
-import http, { IncomingMessage, ServerResponse } from "http";
-import { TextDecoder } from "util";
+import http, { IncomingMessage, ServerResponse } from "node:http";
+import { TextDecoder } from "node:util";
 import { Pool } from "pg";
 import { v4 as uuidv4 } from "uuid";
 
