@@ -60,7 +60,7 @@ export default function RecentRequests({ requests }: RecentRequestsProps) {
                       </small>
                     </div>
                   </td>
-                  <td style={styles.td}>${parseFloat(req.total_cost).toFixed(4)}</td>
+                  <td style={styles.td}>${Number.parseFloat(req.total_cost).toFixed(4)}</td>
                   <td style={styles.td}>{req.response_time}ms</td>
                   <td style={styles.td}>
                     <span
