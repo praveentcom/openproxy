@@ -106,11 +106,7 @@ export default function Dashboard() {
             <option value={168}>Last 7 Days</option>
           </select>
           <label style={styles.checkboxLabel}>
-            <input
-              type="checkbox"
-              checked={autoRefresh}
-              onChange={(e) => setAutoRefresh(e.target.checked)}
-            />
+            <input type="checkbox" checked={autoRefresh} onChange={(e) => setAutoRefresh(e.target.checked)} />
             Auto-refresh (30s)
           </label>
           <button onClick={fetchMetrics} style={styles.refreshButton}>
