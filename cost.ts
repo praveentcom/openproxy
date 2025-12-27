@@ -166,7 +166,7 @@ export function getCostConfig(model: string): CostConfig {
    * Check Helicone costs with operator matching
    */
   const exactMatch = heliconeCosts.get(normalizedModel);
-  if (exactMatch && exactMatch.operator === "equals") {
+  if (exactMatch?.operator === "equals") {
     return exactMatch.config;
   }
 
@@ -229,5 +229,5 @@ export function calculateCost(
     (completion_tokens / 1_000_000) * cost.output;
 
   const total = inputCost + cachedCost + outputCost;
-  return total > 0 ? Number(total.toFixed(6)) : null;
+  return total > 0 ? Number.parseFloat(total.toFixed(6)) : null;
 }
