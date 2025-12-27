@@ -40,8 +40,8 @@ export default function ModelBreakdown({ models }: ModelBreakdownProps) {
                 <td style={styles.td}>
                   <strong>{model.model}</strong>
                 </td>
-                <td style={styles.td}>{parseInt(model.request_count).toLocaleString()}</td>
-                <td style={styles.td}>{parseInt(model.total_tokens).toLocaleString()}</td>
+                <td style={styles.td}>{Number.parseInt(model.request_count).toLocaleString()}</td>
+                <td style={styles.td}>{Number.parseInt(model.total_tokens).toLocaleString()}</td>
                 <td style={styles.td}>${parseFloat(model.total_cost).toFixed(4)}</td>
                 <td style={styles.td}>{Math.round(parseFloat(model.avg_response_time))}ms</td>
               </tr>

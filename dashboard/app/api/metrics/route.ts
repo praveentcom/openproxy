@@ -11,12 +11,12 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
 
   // Validate and sanitize hours parameter
-  const hoursParam = parseInt(searchParams.get('hours') || '24', 10);
-  const hours = !isNaN(hoursParam) && hoursParam > 0 && hoursParam <= 720 ? hoursParam : 24;
+  const hoursParam = Number.parseInt(searchParams.get('hours') || '24', 10);
+  const hours = !Number.isNaN(hoursParam) && hoursParam > 0 && hoursParam <= 720 ? hoursParam : 24;
 
   // Validate and sanitize limit parameter
-  const limitParam = parseInt(searchParams.get('limit') || '100', 10);
-  const limit = !isNaN(limitParam) && limitParam > 0 && limitParam <= 1000 ? limitParam : 100;
+  const limitParam = Number.parseInt(searchParams.get('limit') || '100', 10);
+  const limit = !Number.isNaN(limitParam) && limitParam > 0 && limitParam <= 1000 ? limitParam : 100;
 
   try {
     const client = await pool.connect();
@@ -95,11 +95,11 @@ export async function GET(request: NextRequest) {
         success: true,
         data: {
           summary: {
-            totalRequests: parseInt(summary.total_requests ?? '0'),
-            totalTokens: parseInt(summary.total_tokens_used ?? '0'),
+            totalRequests: Number.parseInt(summary.total_requests ?? '0'),
+            totalTokens: Number.parseInt(summary.total_tokens_used ?? '0'),
             totalCost: parseFloat(summary.total_cost ?? '0'),
             avgResponseTime: parseFloat(summary.avg_response_time ?? '0'),
-            uniqueModels: parseInt(summary.unique_models ?? '0'),
+            uniqueModels: Number.parseInt(summary),
             uniqueClients: parseInt(summary.unique_clients ?? '0'),
           },
           recentRequests,
